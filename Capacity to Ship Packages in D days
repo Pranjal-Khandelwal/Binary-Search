@@ -1,0 +1,55 @@
+class Solution {
+public:
+    bool isPossible(vector<int>&weights,int days,int mx)
+    {
+      int n=weights.size();
+      int day=1;
+      int sum=0;
+        
+      for(int i=0;i<n;i++)
+      {
+          if(weights[i]>mx)
+              return false;
+          
+          if(sum+weights[i]<=mx)
+          {
+              sum+=weights[i];
+          }
+          else{
+              day++;
+              sum=weights[i];
+              
+              if(day>days)
+                  return false;
+          }
+      }
+        return true;
+    }
+    
+    int shipWithinDays(vector<int>& weights, int days) {
+        int n=weights.size();
+        int sum=0,res=-1;
+        
+        for(int i=0;i<n;i++)
+        {
+            sum+=weights[i];
+        }
+        
+        int start=0,end=sum;
+        
+        while(start<=end)
+        {
+            int mid=start+(end-start)/2;
+            
+            if(isPossible(weights,days,mid)==true)
+            {
+                res=mid;
+                end=mid-1;
+            }
+            else{
+                start=mid+1;
+            }
+        }
+        return res;
+    }
+};
